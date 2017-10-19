@@ -1,7 +1,12 @@
 "Programming with Python (G54PRG) 2nd exercise"
 bottom = low = 1
 top = high = 100
+<<<<<<< HEAD
+n = math.log(top - bottom , 2)
+print("OK I will show you a magic that I can guess what you thinking in less then {} steps if you thinking of a number between {} and {}!".format(math.ceil(n)+1, bottom,top))
+=======
 print("Think of a number between {} and {}!".format(bottom,top))
+>>>>>>> parent of 2183a77... 1st
 count = 0
 while True:
     guess = (low + high) // 2
