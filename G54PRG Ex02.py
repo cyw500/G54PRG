@@ -30,13 +30,10 @@ while True:
     else: # when user input is not ">" or "=" or "<"
         count -= 1
         print("Please answer with a single symbol of < or = or > only!")
-        continue
+    #    continue
 
     if low == high:
-        if low == bottom or high == top :
-            end = "you must be thinking outside the range, the number must between {} and {}!".format(bottom , top)
-        else:
-            end = "What are you thinking? It is need to be a whole number!"
+        end = "you must be thinking outside the range, the number must between {} and {}!".format(bottom , top)
         break
     if (high - low) == 1:
         end = "What are you thinking? It is need to be a whole number!"
