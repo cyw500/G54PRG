@@ -1,6 +1,6 @@
 "Programming with Python (G54PRG) 2nd exercise"
-x = low = -10
-y = high = 10
+x = low = 1
+y = high = 100
 print("Think of a number between {} and {}!".format(x,y))
 count = 0
 gotit = False
@@ -18,7 +18,11 @@ while not gotit:
         gotit = True
         break
     elif answer == "<":
-        high = guess
+        if guess != x and guess == (x + 1):
+            high = x
+            continue
+        else:
+            high = guess
     elif answer == ">":
         if guess != y and guess == (y - 1):
             low = y
@@ -28,6 +32,7 @@ while not gotit:
     else: # when user input is not ">" or "=" or "<"
         count -= 1
         print("Please answer with a single symbol of < or = or > only!")
+        continue
 
     if low == high:
         if low == x or high == y :
