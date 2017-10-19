@@ -11,28 +11,31 @@ while not gotit:
     answer = input("Please answer <,=, or >! ")
    
     count += 1
+    end = "I needed {} steps!".format(count)
+
     if answer == "=":
         print("I have guessed it!")
         gotit = True
+        break
     elif answer == "<":
         high = guess
-    elif answer == ">": 
-        low = guess
+    elif answer == ">":
+        if guess != y and guess == (high - 1):
+            low = y
+            continue
+        else:
+            low = guess
     else: # when user input is not ">" or "=" or "<"
         count -= 1
         print("Please answer with a single symbol of < or = or > only!")
 
-    end = "I needed {} steps!".format(count)
-
     if low == high:
 
-        if low == x or high == y:
+        if low == x or high == y :
             end = "You must be thinking outside the range, the number must between {} and {}!".format(x, y)
             break
         else:
             end = "What are you thinking? It is need to be a whole number!"
             break
-    if guess != y and guess == (high - 1):
-        low += 1
 
 print(end)
