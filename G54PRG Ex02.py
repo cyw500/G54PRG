@@ -20,7 +20,7 @@ while not gotit:
     elif answer == "<":
         high = guess
     elif answer == ">":
-        if guess != y and guess == (high - 1):
+        if guess != y and guess == (y - 1):
             low = y
             continue
         else:
@@ -30,12 +30,14 @@ while not gotit:
         print("Please answer with a single symbol of < or = or > only!")
 
     if low == high:
-
         if low == x or high == y :
             end = "You must be thinking outside the range, the number must between {} and {}!".format(x, y)
             break
         else:
             end = "What are you thinking? It is need to be a whole number!"
             break
+    if (high - low) == 1:
+        end = "What are you thinking? It is need to be a whole number!"
+        break
 
 print(end)
