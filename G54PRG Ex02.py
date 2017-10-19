@@ -1,10 +1,9 @@
 "Programming with Python (G54PRG) 2nd exercise"
-x = low = 1
-y = high = 100
-print("Think of a number between {} and {}!".format(x,y))
+bottom = low = 1
+top = high = 100
+print("Think of a number between {} and {}!".format(bottom,top))
 count = 0
-gotit = False
-while not gotit:
+while True:
     guess = (low + high) // 2
 
     print("Is your number greater (>), equal (=), or less (<) than {}?".format(guess))
@@ -15,17 +14,16 @@ while not gotit:
 
     if answer == "=":
         print("I have guessed it!")
-        gotit = True
         break
     elif answer == "<":
-        if guess != x and guess == (x + 1):
-            high = x
+        if guess != bottom and guess == (bottom + 1):
+            high = bottom
             continue
         else:
             high = guess
     elif answer == ">":
-        if guess != y and guess == (y - 1):
-            low = y
+        if guess != top and guess == (top - 1):
+            low = top
             continue
         else:
             low = guess
@@ -35,12 +33,11 @@ while not gotit:
         continue
 
     if low == high:
-        if low == x or high == y :
-            end = "You must be thinking outside the range, the number must between {} and {}!".format(x, y)
-            break
+        if low == bottom or high == top :
+            end = "you must be thinking outside the range, the number must between {} and {}!".format(bottom , top)
         else:
             end = "What are you thinking? It is need to be a whole number!"
-            break
+        break
     if (high - low) == 1:
         end = "What are you thinking? It is need to be a whole number!"
         break
