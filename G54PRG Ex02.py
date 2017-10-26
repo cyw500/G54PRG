@@ -1,42 +1,26 @@
-"Programming with Python (G54PRG) 2nd exercise"
-bottom = low = 1
-top = high = 100
-print("Think of a number between {} and {}!".format(bottom,top))
 count = 0
-while True:
-    guess = (low + high) // 2
+bottom = 1
+top = 100
 
+while True:
+    guess = (top + bottom) // 2
     print("Is your number greater (>), equal (=), or less (<) than {}?".format(guess))
     answer = input("Please answer <,=, or >! ")
-   
+
     count += 1
-    end = "I needed {} steps!".format(count)
-
-    if answer == "=":
-        print("I have guessed it!")
-        break
-    elif answer == "<":
-        if guess != bottom and guess == (bottom + 1):
-            high = bottom
-            continue
-        else:
-            high = guess
+    if answer == "<":
+        if guess == bottom:
+            print("Sorry, the number you thinking is an illegitimate number!")
+            break
+        top = guess - 1
     elif answer == ">":
-        if guess != top and guess == (top - 1):
-            low = top
-            continue
-        else:
-            low = guess
-    else: # when user input is not ">" or "=" or "<"
+        if guess == top:
+            print("Sorry, the number you thinking is an illegitimate number!")
+            break
+        bottom = guess + 1
+    elif answer == "=":
+        print("I have guessed it! \nI needed {} steps!".format(count))
+        break
+    else: # if input is not equal to < or = or >
         count -= 1
-        print("Please answer with a single symbol of < or = or > only!")
-    #    continue
-
-    if low == high:
-        end = "you must be thinking outside the range, the number must between {} and {}!".format(bottom , top)
-        break
-    if (high - low) == 1:
-        end = "What are you thinking? It is need to be a whole number!"
-        break
-
-print(end)
+        print("Please answer with the symbol of < or = or > only!")
