@@ -1,26 +1,29 @@
-count = 0
-bottom = 1
-top = 100
+# Programming with Python (G54PRG) 2nd exercise"
+cnt = 0  # Number of guesses made.
+lower_bound = 1    # Minimum permissible user number.
+upper_bound = 100  # Maximum permissible user number.
 
 while True:
-    guess = (top + bottom) // 2
-    print("Is your number greater (>), equal (=), or less (<) than {}?".format(guess))
-    answer = input("Please answer <,=, or >! ")
+	# Make a guess at the user's number. The next number guessed will be midway between the largest and smallest possible numbers the user can be thinking of.
+    guess = (lower_bound + upper_bound) // 2
+    print("Is your number greater than (>), equal to (=), or less then (<) {}?".format(guess))
+    answer = input("Please answer <, =, or >! ")
+	# Update the bounds on the user's number, validate their guess and their input.
 
-    count += 1
-    if answer == "<":
-        if guess == bottom:
-            print("Sorry, the number you thinking is an illegitimate number!")
+    cnt += 1
+    if answer == "<": # The guess was too high.
+        if guess == lower_bound:
+            print("Sorry, the number you're thinking of is an illegitimate number!")
             break
-        top = guess - 1
-    elif answer == ">":
-        if guess == top:
-            print("Sorry, the number you thinking is an illegitimate number!")
+        upper_bound = guess - 1
+    elif answer == ">":  # The guess was too low.
+        if guess == upper_bound:
+            print("Sorry, the number you're thinking of is an illegitimate number!")
             break
-        bottom = guess + 1
-    elif answer == "=":
-        print("I have guessed it! \nI needed {} steps!".format(count))
+        lower_bound = guess + 1
+    elif answer == "=":  # The guess was correct.
+        print("I have guessed it! \nI needed {} steps!".format(cnt))
         break
-    else: # if input is not equal to < or = or >
-        count -= 1
-        print("Please answer with the symbol of < or = or > only!")
+    else:  # The user's input wasn't valid (i.e. It wasn't equal to <, = or > )
+        cnt -= 1
+        print("Please answer with the symbol <, = or > only!")
