@@ -3,14 +3,14 @@ class Expr:
          
 class Not(Expr):
      
-    def __init__(self, p):
-        self.p = p
+    def __init__(self, var):
+        self.var = var
 
     def __str__(self) :
-        if type(self.p) == Or:
-            return "!(" + str(self.p) + ")"
+        if isinstance(self.var, And) or isinstance(self.var, Or):
+            return  "!(" + str(self.var) + ")" 
         else:
-            return "!" + str(self.p)
+            return "!" + str(self.var)
 
     
 class And(Expr):
@@ -20,16 +20,23 @@ class And(Expr):
         self.q = q
         
     def __str__(self):
-        return  str(self.p) + "&" + str(self.q)   
+
+        if isinstance(self.p, Or):
+            return  "(" + str(self.p) + ")&" + str(self.q)
+        if isinstance(self.q, Or):
+            return  str(self.p) + "&(" + str(self.q) + ")"
+        else:
+            return  str(self.p) + "&" + str(self.q) 
         
 class Or(Expr):
     
     def __init__(self, p, q):
         self.p = p
-        self.q = q
+        self.q = q     
 
     def __str__(self):
-        return  str(self.p) + "|" + str(self.q)
+            return   str(self.p) + "|" + str(self.q)
+        
         
 class Var(Expr):
     
@@ -39,8 +46,8 @@ class Var(Expr):
     def __str__(self):
         return self.var
 
-def Equiv(p , q):    
-    return Or(And(str(p) ,str(q)),And(Not(str(p)) ,Not(str(q))))
+def Equiv(p,q) :
+    return Or(And(p,q),And(Not(p),Not(q)))
 
 e1 = Or(Var("x"),Not(Var("x")))
 e2 = Equiv(Var("x"),Not(Not(Var("x"))))
