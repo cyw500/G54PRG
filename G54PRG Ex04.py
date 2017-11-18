@@ -20,11 +20,12 @@ class And(Expr):
         self.q = q
         
     def __str__(self):
-
         if isinstance(self.p, Or):
             return  "(" + str(self.p) + ")&" + str(self.q)
         if isinstance(self.q, Or):
             return  str(self.p) + "&(" + str(self.q) + ")"
+        if isinstance(self.p, And):
+            return  "(" + str(self.p) + ")&" + str(self.q)
         else:
             return  str(self.p) + "&" + str(self.q) 
         
@@ -35,6 +36,9 @@ class Or(Expr):
         self.q = q     
 
     def __str__(self):
+        if isinstance(self.p, Or):
+            return  "(" + str(self.p) + ")&" + str(self.q)
+        else:
             return   str(self.p) + "|" + str(self.q)
         
         
