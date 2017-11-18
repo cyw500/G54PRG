@@ -2,6 +2,8 @@ class Expr:
     
     def isTauto():
         pass
+#        eval()
+#           if 
          
 class Not(Expr):
      
@@ -16,7 +18,7 @@ class Not(Expr):
             return "!" + str(self.Expr)
 
     def eval(self,d):
-            return not d[str(self.Expr)]
+        return not self.Expr.eval(d)
 
     
 class And(Expr):
@@ -34,6 +36,9 @@ class And(Expr):
             return  "(" + str(self.LeftExpr) + ")&" + str(self.RightExpr)
         else:
             return  str(self.LeftExpr) + "&" + str(self.RightExpr)
+
+    def eval(self,d):
+        return self.LeftExpr.eval(d) and self.RightExpr.eval(d)
         
 class Or(Expr):
     
@@ -45,7 +50,11 @@ class Or(Expr):
         if isinstance(self.LeftExpr, Or):  # As Or are right associative
             return  "(" + str(self.LeftExpr) + ")&" + str(self.RightExpr)
         else:
-            return   str(self.LeftExpr) + "|" + str(self.RightExpr)        
+            return   str(self.LeftExpr) + "|" + str(self.RightExpr)
+
+    def eval(self,d):
+        return self.LeftExpr.eval(d) or self.RightExpr.eval(d)
+            # calling the things(left and right expressions) recursively untill it reach the var.eval(e?)
         
 class Var(Expr):
     
@@ -61,8 +70,10 @@ class Var(Expr):
 def Equiv(p,q) :
     return Or(And(p,q),And(Not(p),Not(q)))
 
-e00 = Var("x")
-e0 = Not(Var("x"))
+
+e000 = Var("x")
+e00 = Not(Var("x"))
+e0 = Not(Not(Var("x")))
 e = And(Var("x"),Not(Var("y")))
 e1 = Or(Var("x"),Not(Var("x")))
 e2 = Equiv(Var("x"),Not(Not(Var("x"))))
