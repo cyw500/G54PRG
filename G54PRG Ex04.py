@@ -9,15 +9,19 @@ class Expr:
     def isTauto(self):
         for instantiation in self.allInstantiations(list(self.collectVars())):
             if not self.eval(instantiation):
-                return False  
+                return False
         return True
-         
+
+
 class Var(Expr):
     def __init__(self, var):
         self.var = var
 
     def __str__(self):
         return self.var
+
+    def level(self):
+        return 4
 
     def eval(self, instantiation):
         # No check to ensure that the variable is actually instantiated.
@@ -26,16 +30,20 @@ class Var(Expr):
     def collectVars(self):
         return set(self.var)
 
+
 class Not(Expr):
     def __init__(self, expr):
         self.expr = expr
 
     def __str__(self) :
-        if isinstance(self.expr, TwoExpr):
+        if self.expr.level() < self.level():
             # Since NOT bind stronger than both And and Or the self.expr need brackets() around them
-            return f"!({self.expr})" 
+            return f"!({self.expr})"
         else:  # When type(self.expr) is Not or Var
             return f"!{self.expr}"
+
+    def level(self):
+        return 3
 
     def eval(self, instantiation):
         return not self.expr.eval(instantiation)
@@ -43,38 +51,38 @@ class Not(Expr):
     def collectVars(self):
         return self.expr.collectVars()
 
+
 class TwoExpr(Expr):
     def __init__(self, l_expr, r_expr):
         self.l_expr = l_expr
         self.r_expr = r_expr
- 
+
     def collectVars(self):
         return self.l_expr.collectVars() | self.r_expr.collectVars()
 
-class And(TwoExpr):
     def __str__(self):
-        if isinstance(self.l_expr, TwoExpr) and isinstance(self.r_expr, Or):
-            return f"({self.l_expr})&({self.r_expr})"
-        elif isinstance(self.l_expr, TwoExpr):
-            # As AND bind stronger than OR , and AND are right associative
-            return f"({self.l_expr})&{self.r_expr}"
-        elif isinstance(self.r_expr, Or):  # As AND bind stronger than OR
-            return f"{self.l_expr}&({self.r_expr})"
-        else:
-            return f"{self.l_expr}&{self.r_expr}"
+        l = self.l_expr
+        r = self.r_expr
+        if self.l_expr.level() < self.level():
+            l = f"({self.l_expr})"
+        if self.r_expr.level() <= self.level():
+            r = f"({self.r_expr})"
+        return f"{l}&{r}"
 
-    def eval (self, instantiation):
+
+class And(TwoExpr):
+    def level(self):
+        return 2
+
+    def eval(self, instantiation):
         return self.l_expr.eval(instantiation) and self.r_expr.eval(instantiation)
 
-class Or(TwoExpr):
-    def __str__(self):
-        if isinstance(self.l_expr, Or):
-        # Since OR are right associative it need () when left side of the branch
-            return f"({self.l_expr})|{self.r_expr}"
-        else:
-            return f"{self.l_expr}|{self.r_expr}"
 
-    def eval (self, instantiation):
+class Or(TwoExpr):
+    def level(self):
+        return 1
+
+    def eval(self, instantiation):
         return self.l_expr.eval(instantiation) or self.r_expr.eval(instantiation)
 
 
@@ -106,6 +114,3 @@ print("e1: ",e1.isTauto())
 print("e2: ",e2.isTauto())
 print("e3: ",e3.isTauto())
 print("e4: ",e4.isTauto())
-
-
-
